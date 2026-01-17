@@ -1,0 +1,28 @@
+openradiation:/etc/openradiation# cat -n /etc/apk/repositories
+     1  /media/mmcblk0/apks
+     2  http://dl-cdn.alpinelinux.org/alpine/v3.22/main
+     3  http://dl-cdn.alpinelinux.org/alpine/v3.22/community
+
+apk update
+apk add --no-cache \
+  python3 py3-pip py3-gobject3 py3-pydbus \
+  dbus dbus-openrc \
+  bluez bluez-openrc bluez-tools \
+  dos2unix
+
+rc-update add dbus default
+rc-update add bluetooth default
+rc-service dbus start
+rc-service bluetooth start
+
+bluetoothctl
+[bluetooth]# power on
+[bluetooth]# agent on
+[bluetooth]# default-agent
+[bluetooth]# scan on
+# Attends de voir AA:AA:AA:AA:AA:AA apparaître
+[bluetooth]# scan off
+[bluetooth]# pair AA:AA:AA:AA:AA:AA
+[bluetooth]# trust AA:AA:AA:AA:AA:AA
+[bluetooth]# connect AA:AA:AA:AA:AA:AA
+[bluetooth]# quit
